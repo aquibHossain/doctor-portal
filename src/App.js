@@ -1,10 +1,8 @@
-import logo from './logo.svg';
 import './App.css';
 import {
   BrowserRouter as Router,
-  Switch,
   Route,
-  Link
+  Routes
 } from "react-router-dom";
 import Home from './Component/Home/Home';
 import Appointment from './Component/Appointment/Appointment';
@@ -13,32 +11,41 @@ import Register from './Component/Register/Register';
 import AuthProvider from './Context/AuthProvider/AuthProvider';
 import PrivateRoute from './Component/PrivateRoute/PrivateRoute';
 import Dashboard from './Component/Dashboard/Dashboard';
+import DashboardHome from '../src/Component/DashboardHome/DashboardHome';
+import MakeAdmin from '../src/Component/MakeAdmin/MakeAdmin';
+import AddDoctor from '../src/Component/AddDoctor/AddDoctor';
+import AdminRoute from '../src/Component/AdminRoute/AdminRoute';
+import Payment from '../src/Payment/Payment';
 
 function App() {
   return (
     <div className='App'>
       <AuthProvider>
       <Router>
-      <Switch>
-          <Route path="/home">
-            <Home></Home>
+      <Routes>
+          <Route path="/home" element={<Home />}/>  
+
+          <Route path="/" element={<Home />}/>  
+
+          <Route path="/dashboard" element={<PrivateRoute><Dashboard/></PrivateRoute>}>
+          <Route  path='/dashboard' element={<DashboardHome />}/>
+
+<Route  path={`payment/:appointmentId`} element={<Payment />} />
+
+<Route path={`makeAdmin`} element={<AdminRoute><MakeAdmin/></AdminRoute>} />
+
+<Route path={`addDoctor`} element={<AdminRoute><AddDoctor /></AdminRoute>} />
+
           </Route>
-          <PrivateRoute path="/appointment">
-          <Appointment></Appointment>
-          </PrivateRoute>
-          <PrivateRoute path="/dashboard">
-          <Dashboard></Dashboard>
-          </PrivateRoute>
-          <Route path="/login">
-          <Login></Login>
-          </Route>
-          <Route path="/register">
-          <Register></Register>
-          </Route>
-          <Route path="/">
-          <Home></Home>
-          </Route>
-        </Switch>
+         
+          <Route path="/appointment" element={<PrivateRoute><Appointment /></PrivateRoute>}/>
+   
+          <Route path="/login" element={<Login />}/>
+
+          <Route path="/register" element={<Register />}/>
+        
+          
+        </Routes>
       </Router>
       </AuthProvider>
     </div>

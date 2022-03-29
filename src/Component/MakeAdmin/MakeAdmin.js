@@ -12,7 +12,8 @@ const MakeAdmin = () => {
      const handleSubmit=e=>{
          const user={email}
          fetch('https://agile-dawn-10328.herokuapp.com/users/admin',{
-             method:'PUT',headers:{
+             method:'PUT',
+             headers:{
                  'authorization':`Bearer ${token}`,
                  'content-type':'application/json'
              },

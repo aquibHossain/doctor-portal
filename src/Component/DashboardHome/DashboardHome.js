@@ -7,8 +7,9 @@ const DashboardHome = () => {
     return (
 
             <Grid container spacing={2}>
-        <Grid item xs={12} md={5} >
+        <Grid item xs={12} md={5} sx={{alignSelf:"center"}}  >
         <Calender 
+        
         date={date}
         setDate={setDate}></Calender>
         </Grid>

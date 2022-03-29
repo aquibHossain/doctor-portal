@@ -7,27 +7,33 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 
 const DashboardAppointment = ({date}) => {
     const {user,token}=useAuth()
     const [appointment,setAppointment]=useState([])
+    const navigate=useNavigate()
     useEffect(()=>{
         fetch(`https://agile-dawn-10328.herokuapp.com/appointments?email=${user.email}&date=${date}`,{
           headers:{
-            'authorization':`Bearer ${token}`
-            
+            'authorization':`Bearer ${token}`  
         },
         })
         .then(res=>res.json())
         .then(data=>setAppointment(data))
     },[date])
+
+    const handleClick=(id)=>{
+      navigate(`/dashboard/payment/${id}`)
+    }
     return (
         <div>
             <h1>Appointment {appointment.length}</h1>
            
             <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <Table sx={{ minWidth: 750 }} aria-label="simple table">
                   <TableHead>
                     <TableRow>
                       <TableCell >Service</TableCell>
@@ -35,6 +41,7 @@ const DashboardAppointment = ({date}) => {
                       <TableCell align="right">Name</TableCell>
                       <TableCell align="right">Time</TableCell>
                       <TableCell align="right">Date</TableCell>
+                      <TableCell align="right">Payment</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -50,6 +57,7 @@ const DashboardAppointment = ({date}) => {
                         <TableCell align="right">{appoint.displayName}</TableCell>
                         <TableCell align="right">{appoint.time}</TableCell>
                         <TableCell align="right">{appoint.date}</TableCell>
+                        <TableCell align="right">{appoint.payment?"Paid":<Button onClick={()=>handleClick(appoint._id)} variant='contained'>Pay</Button>}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>

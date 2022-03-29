@@ -21,8 +21,8 @@ const style = {
 
 const BookingModal = ({open,handleClose,booking,date,setbookingSuccess}) => {
     const {user}=useAuth()
-    const {name,time,space}=booking
-    const newBooking={email:user.email,phone:'',displayName:name}
+    const {name,time,space,price}=booking
+    const newBooking={email:user.email,phone:'',displayName:user.displayName,price}
     const [bookingInfo,setBookingInfo]=useState(newBooking)
     const onHandleBlur=(e)=>{
          const name=e.target.name

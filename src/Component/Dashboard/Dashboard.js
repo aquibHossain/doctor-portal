@@ -6,37 +6,22 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
-    useParams,
-    useRouteMatch,
+    Routes,
     NavLink
   } from "react-router-dom";
 import { Button } from '@mui/material';
-import DashboardHome from '../DashboardHome/DashboardHome';
-import MakeAdmin from '../MakeAdmin/MakeAdmin';
-import AddDoctor from '../AddDoctor/AddDoctor';
 import useAuth from '../../hooks/useAuth';
-import AdminRoute from '../AdminRoute/AdminRoute';
+import { Outlet } from 'react-router-dom';
 
 
 const drawerWidth = 200;
 
 function Dashboard(props) {
   
-    let { path, url } = useRouteMatch();
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const {admin}=useAuth()
@@ -51,23 +36,13 @@ function Dashboard(props) {
     <div>
       <Toolbar />
       <Divider />
-      <NavLink style={{textDecoration:"none",color:'darkblue',fontWeight:'bold'}}  to="/appointment"><Button color="inherit">Appointment</Button></NavLink>
-      <NavLink style={{textDecoration:"none",color:'darkblue',fontWeight:'bold'}}  to={`${url}`}><Button color="inherit">Dashboard</Button></NavLink>
+      <NavLink  style={{textDecoration:"none",color:'black',fontWeight:'bold'}}  to="/appointment"><Button color="inherit">Appointment</Button></NavLink>
+      <NavLink style={{textDecoration:"none",color:'darkblue',fontWeight:'bold'}}  to='/dashboard'><Button color="inherit">Dashboard</Button></NavLink>
      {admin && <Box>
-      <NavLink style={{textDecoration:"none",color:'darkblue',fontWeight:'bold'}}  to={`${url}/makeAdmin`}><Button color="inherit">Make Admin</Button></NavLink>
-      <NavLink style={{textDecoration:"none",color:'darkblue',fontWeight:'bold'}}  to={`${url}/addDoctor`}><Button color="inherit">Add Doctor</Button></NavLink>
+      <NavLink style={{textDecoration:"none",color:'darkblue',fontWeight:'bold'}}  to={`/dashboard/makeAdmin`}><Button color="inherit">Make Admin</Button></NavLink>
+      <NavLink style={{textDecoration:"none",color:'darkblue',fontWeight:'bold'}}  to={`/dashboard/addDoctor`}><Button color="inherit">Add Doctor</Button></NavLink>
      </Box>}
-      <Divider />
-      <List>
-        {['Inbox', 'Appointment', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
+     
       <Divider />
     </div>
   );
@@ -137,17 +112,7 @@ function Dashboard(props) {
       >
         <Toolbar />
 
-        <Switch>
-        <Route exact path={path}>
-         <DashboardHome></DashboardHome>
-        </Route>
-        <AdminRoute path={`${path}/makeAdmin`}>
-         <MakeAdmin></MakeAdmin>
-        </AdminRoute>
-        <AdminRoute path={`${path}/addDoctor`}>
-         <AddDoctor></AddDoctor>
-        </AdminRoute>
-      </Switch>
+        <Outlet></Outlet>
      
       </Box>
     </Box>

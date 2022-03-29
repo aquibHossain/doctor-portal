@@ -1,12 +1,12 @@
 import { Button, Container, Grid, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
-import { NavLink, useLocation,useHistory } from 'react-router-dom';
+import { NavLink, useLocation,useNavigate } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 import login from './../../images/login.png'
 
 const Login = () => {
     const [loginData,setLoginData]=useState({});
-    const history=useHistory();
+    const history=useNavigate();
     const location=useLocation();
     const {signIn,user,signInGoogle}=useAuth()
     const handleOnChange=e=>{

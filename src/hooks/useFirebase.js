@@ -14,7 +14,7 @@ const useFirebase=()=>{
     const [admin,setAdmin]=useState(false)
     const [token,setToken]=useState('')
 
-    const signUpEmail=(email,password,name,history)=>{
+    const signUpEmail=(email,password,name,navigate)=>{
         setIsLoading(true)
         createUserWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
@@ -27,20 +27,20 @@ const useFirebase=()=>{
       }).then(() => { 
       }).catch((error) => {
       });
-    history.replace('/')
+    navigate('/')
   })
   .catch((error) => {
     const errorMessage = error.message;
     setError(errorMessage)
   }).finally(()=>setIsLoading(false));
     } 
-    const signInGoogle=(location,history)=>{
+    const signInGoogle=(location,navigate)=>{
         signInWithPopup(auth, provider)
   .then((result) => {
     const user=result.user
     saveUser(user.email,user.displayName,'PUT')
     const destination=location?.state?.from || "/";
-        history.replace(destination)
+        navigate(destination)
         setError('')
    
   }).catch((error) => {
@@ -48,12 +48,12 @@ const useFirebase=()=>{
     setError(errorMessage)
   });
     }
-    const signIn=(email,password,location,history)=>{
+    const signIn=(email,password,location,navigate)=>{
         setIsLoading(true)
         signInWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
         const destination=location?.state?.from || "/";
-        history.replace(destination)
+        navigate(destination)
         setError('')
   })
   .catch((error) => {

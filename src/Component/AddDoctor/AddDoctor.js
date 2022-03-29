@@ -1,17 +1,42 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Box from '@mui/material/Box';
-import {TextField,Button} from '@mui/material';
+import {TextField,Button, Input} from '@mui/material';
 
 const AddDoctor = () => {
-   
+   const [email,setEmail]=useState('')
+   const [name,setName]=useState('')
+   const [img,setimg]=useState(null)
+
+  const  handleSubmit=(e)=>{
+    if(!img){
+      return
+    }
+    const formData = new FormData();
+    formData.append('email',email)
+    formData.append('name',name)
+    formData.append('img',img)
+
+    fetch('https://agile-dawn-10328.herokuapp.com/doctor', {
+  method: 'POST',
+  body: formData
+})
+.then(response => response.json())
+.then(result => {
+  alert("doctor added")
+  console.log('Success:', result);
+})
+.catch(error => {
+  console.error('Error:', error);
+});
+
+     e.preventDefault()
+   }
     return (
         <div>
             <h1>Add a Doctor</h1>
-            <form >
-
+            <form onSubmit={handleSubmit}>
             <Box
-      component="form"
       sx={{
         '& .MuiTextField-root': { m: 1, width: '25ch' },
       }}
@@ -24,6 +49,7 @@ const AddDoctor = () => {
           required
           id="outlined-required"
           label="Email"
+          onChange={e=>setEmail(e.target.value)}
           placeholder="Email"
         />
         <TextField
@@ -36,23 +62,23 @@ const AddDoctor = () => {
         <TextField
          style={{width:"50%"}}
           id="outlined-password-input"
-          label="Password"
-          type="password"
-          autoComplete="current-password"
+          label="Name"
+          type="text"
+          onChange={e=>setName(e.target.value)}
+         required
         />
-        <TextField
+        <Input
          style={{width:"50%"}}
-          id="outlined-number"
-          label="Id Number"
-          type="number"
-          InputLabelProps={{
-            shrink: true,
-          }}
+         accept='image/*'
+          type='file'
+          onChange={e=>setimg(e.target.files[0])}
         />
       </div>
     <Button 
-     style={{width:"50%"}}
-      contained>Submit</Button>
+    variant='contained'
+    type='submit'
+     sx={{width:"25%",mt:3}}
+    >Submit</Button>
     </Box>
     </form>
         </div>

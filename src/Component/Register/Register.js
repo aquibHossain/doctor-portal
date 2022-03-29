@@ -1,13 +1,13 @@
 import { Alert, Button, CircularProgress, Container, Grid, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
-import { NavLink ,useHistory} from 'react-router-dom';
+import { NavLink ,useNavigate} from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 import login from './../../images/login.png'
 
 const Register = () => {
     const [loginData,setLoginData]=useState({})
     const {user,signUpEmail,isLoading,Error}=useAuth()
-    const history=useHistory();
+    const history=useNavigate();
     const handleOnChange=e=>{
        const name=e.target.name;
        const val=e.target.value
